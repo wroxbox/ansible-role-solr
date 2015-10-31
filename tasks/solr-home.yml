@@ -18,10 +18,18 @@
     mode: 0755
   when: not solr_develop.stat.exists
 
-
 - name: Copy SOLR Conf from files
-  copy: "src=conf/* dest={{ solr_home }}/{{ solr_core_name }}/conf/"
+  shell: "cp -R /etc/ansible/roles/{{ role.name }}/files/conf/* {{ solr_home }}/{{ solr_core_name }}/conf/"
 
+- name: Copy solr.xml into solr_home.
+  shell: "cp -r {{ solr_install_path }}/example/solr/solr.xml {{ solr_home }}/{{ solr_core_name }}"
+  when: not solr_develop.stat.exists
+
+- name: Copy core.properties place.
+  template:
+    src: "core.properties.j2"
+    dest: "{{ solr_home }}/{{ solr_core_name }}"
+  when: not solr_develop.stat.exists
 
 - name: Ensure Solr home files are owned by the solr_user.
   file:
