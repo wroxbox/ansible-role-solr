@@ -19,7 +19,7 @@
   when: not solr_develop.stat.exists
 
 - name: Copy SOLR Conf from files
-  shell: "cp -R /etc/ansible/roles/{{ role.name }}/files/conf/* {{ solr_home }}/{{ solr_core_name }}/conf/"
+  shell: "cp -R /etc/ansible/roles/{{ role_name }}/files/conf/* {{ solr_home }}/{{ solr_core_name }}/conf/"
 
 - name: Copy solr.xml into solr_home.
   shell: "cp -r {{ solr_install_path }}/example/solr/solr.xml {{ solr_home }}/{{ solr_core_name }}"

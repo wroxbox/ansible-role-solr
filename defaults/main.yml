@@ -1,5 +1,5 @@
 ---
-role.name: "wroxbox.solr"
+role_name: "wroxbox.solr"
 solr_workspace: /root
 
 solr_create_user: true
