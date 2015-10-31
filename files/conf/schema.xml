@@ -162,9 +162,7 @@
       <analyzer type="index">
         <charFilter class="solr.MappingCharFilterFactory" mapping="mapping-ISOLatin1Accent.txt"/>
         <tokenizer class="solr.WhitespaceTokenizerFactory"/>
-        <tokenizer class="solr.StandardTokenizerFactory"/>
         <filter class="solr.NGramFilterFactory" minGramSize="3" maxGramSize="20"/>
-
         <!-- in this example, we will only use synonyms at query time
         <filter class="solr.SynonymFilterFactory" synonyms="index_synonyms.txt" ignoreCase="true" expand="false"/>
         -->
@@ -272,6 +270,7 @@
 
     <fieldType name="textSpell" class="solr.TextField" positionIncrementGap="100">
       <analyzer>
+        <tokenizer class="solr.StandardTokenizerFactory" />
         <filter class="solr.StopFilterFactory" ignoreCase="true" words="stopwords.txt"/>
         <filter class="solr.LengthFilterFactory" min="4" max="20" />
         <filter class="solr.LowerCaseFilterFactory" />
@@ -550,9 +549,5 @@
 
   <!-- SolrQueryParser configuration: defaultOperator="AND|OR" -->
   <solrQueryParser defaultOperator="AND"/>
-
-  <!-- SOLR NGram search capability -->
-  <filter class="solr.EdgeNGramFilterFactory" minGramSize="3" maxGramSize="50" side="front"/>
-  <filter class="solr.EdgeNGramFilterFactory" minGramSize="3" maxGramSize="50" side="back"/>
 
 </schema>
