@@ -2,9 +2,9 @@
 dependencies: []
 
 galaxy_info:
-  author: geerlingguy
-  description: Apache Solr for Linux.
-  company: "Midwestern Mac, LLC"
+  author: wroxbox
+  description: Apache Solr for Linux based on Jeff Geerlings.
+  company: "Affecto Finland Oy"
   license: "license (BSD, MIT)"
   min_ansible_version: 1.4
   platforms:
