@@ -48,6 +48,13 @@ The port on which Solr will run.
 
 Memory settings for the JVM. These should be set as high as you can allow for best performance and to reduce the chance of Solr restarting itself due to OOM situations.
 
+SOLR will be deployed as multicore and they all have separate configuration for testing purposes
+
+    solr_cores:
+     - develop
+     - testing
+     - production
+
 ## Dependencies
 
 None.
@@ -57,7 +64,7 @@ None.
     - hosts: solr-servers
       roles:
         - { role: geerlingguy.java }
-        - { role: geerlingguy.solr }
+        - { role: wroxbox.solr }
 
 ## License
 
