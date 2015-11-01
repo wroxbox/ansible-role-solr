@@ -4,10 +4,12 @@
   register: solr_develop
 
 - name: Create SOLR data location
-  file: "path={{ solr_home }}/{{ solr_core_name }}/data state=directory"
+  file: "path={{ solr_home }}/{{ item }}/data state=directory"
+  with_items: solr_cores | list
 
 - name: Create SOLR core configuration location
-  file: "path={{ solr_home }}/{{ solr_core_name }}/conf state=directory"
+  file: "path={{ solr_home }}/{{ item }}/conf state=directory"
+  with_items: solr_cores | list
 
 - name: Ensure solr_home directory exists.
   file:
@@ -19,16 +21,23 @@
   when: not solr_develop.stat.exists
 
 - name: Copy SOLR Conf from files
-  shell: "cp -R /etc/ansible/roles/{{ role_name }}/files/conf/* {{ solr_home }}/{{ solr_core_name }}/conf/"
+  shell: "cp -R /etc/ansible/roles/{{ role_name }}/files/conf/* {{ solr_home }}/{{ item }}/conf/"
+  with_items: solr_cores | list
 
-- name: Copy solr.xml into solr_home.
-  shell: "cp -r {{ solr_install_path }}/example/solr/solr.xml {{ solr_home }}/{{ solr_core_name }}"
-  when: not solr_develop.stat.exists
+#- name: Copy solr.xml into solr_home.
+#  shell: "cp -r {{ solr_install_path }}/example/solr/solr.xml {{ solr_home }}/{{ solr_core_name }}"
+#  when: not solr_develop.stat.exists
+
+- name: Configure solr.xml to support permanent multicores for all cores defined.
+  template:
+    src: multicore.j2
+    dest: "{{ solr_home }}/solr.xml"
 
 - name: Copy core.properties place.
   template:
     src: "core.properties.j2"
-    dest: "{{ solr_home }}/{{ solr_core_name }}"
+    dest: "{{ solr_home }}/{{ item }}/"
+  with_items: solr_cores | list
   when: not solr_develop.stat.exists
 
 - name: Ensure Solr home files are owned by the solr_user.
